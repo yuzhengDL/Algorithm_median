@@ -1,1 +1,1 @@
-# Algorithm_hard
+# Algorithm_median
