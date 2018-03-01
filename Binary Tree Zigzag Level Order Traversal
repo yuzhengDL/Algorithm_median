@@ -1,0 +1,45 @@
+/*
+思路：广度优先搜索。可以设置标志位count用来标识当前是否需要翻转。
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        if(root == NULL)  
+            return res;  
+        queue<TreeNode *> tree;  
+        int count = -1; //记录层次数，根为0层；  
+        tree.push(root);  
+  
+        while(!tree.empty()){  
+            int n = tree.size();  
+            TreeNode *p;  
+            vector<int> node;  
+            count++;  
+            for(int i = 0;i < n;i++){  
+                 p = tree.front();  
+                 tree.pop();  
+                 if(p->left) tree.push(p->left);  
+                 if(p->right) tree.push(p->right);  
+                 node.push_back(p->val);  
+            }  
+            if(count%2 != 0){   //当为奇数层的时候，翻转数组元素  
+                reverse(node.begin(),node.end());     
+            }  
+            res.push_back(node);  
+        }  
+        return res;  
+    }  
+  
+  
+private:  
+    vector<vector<int> > res;  
+};
