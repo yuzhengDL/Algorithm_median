@@ -1,0 +1,30 @@
+/*
+题目要求找出图中岛屿的数量，所有相连的‘1’构成一个岛屿。可以遍历整个地图，若遇到‘1’，则表示此处为岛屿的起点，然后应用深度优先搜索DFS找出与之相邻的所有的
+‘1’，并全部置为0,；若遇到0，继续遍历。因此岛屿的数量就相当于算法进行深度优先搜索的次数。
+*/
+
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int res = 0;
+        if(grid.size()==0) return res;
+        
+        for (int i=0;i<grid.size();i++){
+            for (int j=0;j<grid[0].size();j++){
+                if (grid[i][j] == '1'){
+                    dfs(grid, i, j);
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+    
+    void dfs(vector<vector<char>>& grid, int i, int j){
+        grid[i][j] = '0';
+        if (i>0 && grid[i-1][j] == '1') dfs(grid, i-1, j);
+        if (j>0 && grid[i][j-1] == '1') dfs(grid, i, j-1);
+        if (i<grid.size()-1 && grid[i+1][j] == '1') dfs(grid, i+1, j);
+        if (j<grid[0].size()-1 && grid[i][j+1] == '1') dfs(grid, i, j+1);
+    }
+};
