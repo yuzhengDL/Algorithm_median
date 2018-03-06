@@ -1,0 +1,29 @@
+/*
+思路：BST性质：中序遍历结果是一个递增的序列。因此先利用递归的方法对BST进行中序遍历，然后取出递增序列中第k-1个元素输出即可。
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    vector<int> pre;
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        preorder(root);
+        return pre[k-1];
+    }
+    
+    void preorder(TreeNode* root){
+        if(!root) return ;
+        
+        preorder(root->left);
+        pre.push_back(root->val);
+        preorder(root->right);
+        
+    }
+};
