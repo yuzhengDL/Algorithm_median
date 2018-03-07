@@ -1,0 +1,26 @@
+/*
+思路：通过哈希表存储数组nums中不同数字的出现次数，然后按照出现次数从高到低的顺序输出k个元素。
+unordered_map<int,int>：哈希表，通过键值索引
+priority_queue<pair<int,int>>：优先队列，优先级高的先输出。
+*/
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int,int> map;
+        for(int num : nums){
+            map[num]++;
+        }
+        
+        vector<int> res;
+        // pair<first, second>: first is frequency,  second is number
+        priority_queue<pair<int,int>> pq; 
+        for(auto it = map.begin(); it != map.end(); it++){
+            pq.push(make_pair(it->second, it->first));
+            if(pq.size() > (int)map.size() - k){
+                res.push_back(pq.top().second);
+                pq.pop();
+            }
+        }
+        return res;
+    }
+};
