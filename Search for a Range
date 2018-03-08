@@ -1,0 +1,26 @@
+/*
+思路：通过二分查找法找到目标元素target的起始位置和终止位置。
+*/
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int left = 0; int right = nums.size() - 1; int mid = 0;
+        vector<int> res(2, -1);
+        if (nums.size() == 0) return res;
+        while(nums[left] < nums[right]){
+            mid = left + (right - left) / 2;
+            if (nums[mid] == target){
+                if (nums[left] < target) left++;
+                if (nums[right] > target) right--;
+            }
+            else if (nums[mid] > target) right = mid - 1;
+            else left = mid + 1;
+        }
+        if (nums[left] == target){
+            res.clear();
+            res.push_back(left);
+            res.push_back(right);
+        }
+        return res;
+    }
+};
