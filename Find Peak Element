@@ -1,0 +1,15 @@
+/*
+思路：确定二分查找折半后中间那个元素后，和紧跟的那个元素比较下大小，如果大于，则说明峰值在前面，如果小于则在后面。
+*/
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int left = 0; int right = nums.size() - 1;
+        while(left < right){
+            int mid = left + (right - left) / 2;
+            if (nums[mid]<nums[mid+1]) left = mid + 1;
+            else right = mid;
+        }
+        return right;
+    }
+};
