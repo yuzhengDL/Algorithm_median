@@ -1,0 +1,35 @@
+/*
+思路：先对intervals中的start进行从小到大排序，然后不断比较当前interval的end和下一区间start大小，若end>start，则说明存在交集，将当前区间的end修改成
+两个区间较大的end即可。
+*/
+
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+public:
+    static bool comp(const Interval &a, const Interval &b){
+        return (a.start < b.start);
+    }
+    vector<Interval> merge(vector<Interval>& intervals) {
+        vector<Interval> res;
+        if (intervals.empty()) return res;
+        sort(intervals.begin(), intervals.end(), comp);
+        res.push_back(intervals[0]);
+        for (int i=1;i<intervals.size();i++){
+            if (res.back().end >= intervals[i].start){
+                res.back().end = res.back().end > intervals[i].end? res.back().end:intervals[i].end;
+            }
+            else{
+                res.push_back(intervals[i]);
+            }
+        }
+        return res;
+    }
+};
