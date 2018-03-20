@@ -1,0 +1,51 @@
+/*
+思路：插入、删除和取随机数的时间要求都是O（1），可以通过数组和哈希表相结合的方式来实现。因为数组在取随机数上的时间要求是O（1），但是在插入和删除操作上
+需要遍历整个数组来判断元素是否存在，因此需要的时间是O（n）;而哈希表能够在O（1）时间内判断某元素是否存在，因此通过结合两者，可以实现该数据结构。
+插入操作：先在哈希表中判断该元素是否在数组中存在，使用hash[val] == hash.end()来判断，若为true，则代表该元素不存在，可以在数组中插入；若为false，则
+代表该元素存在，不能插入。
+删除操作：先在哈希表中判断该元素是否在数组中存在，使用hash[val] == hash.end()来判断，若为true，则代表元素不存在，无法执行删除操作；若为false，则代表
+元素存在，可以删除。执行删除操作时，将数组中最后一位元素与当前val所在的位置（可以通过哈希表索引得到）进行交换，此时val位于数组的末端，然后将哈希表中对
+应位置hash[val]的值设置成末端元素的下标，最后删除数组中的val元素和哈希表中的对应键值对。
+取随机数：
+使用rand()%data.size()可以得到取值范围在0~data.size()-1的整数，然后用该整数作为索引值在数组中进行检索即可。
+*/
+class RandomizedSet {
+    vector<int> data;
+    unordered_map<int, int> hash;
+public:
+    /** Initialize your data structure here. */
+    RandomizedSet() {
+        
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    bool insert(int val) {
+        if (hash.find(val) != hash.end()) return false;
+        data.push_back(val);
+        hash[val] = data.size() - 1;
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    bool remove(int val) {
+        if (hash.find(val) == hash.end()) return false;
+        data[hash[val]] = data.back();
+        hash[data.back()] = hash[val];
+        data.pop_back();
+        hash.erase(val);
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    int getRandom() {
+        return data[rand()%data.size()];
+    }
+};
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet obj = new RandomizedSet();
+ * bool param_1 = obj.insert(val);
+ * bool param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
