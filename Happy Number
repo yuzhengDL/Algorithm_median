@@ -1,0 +1,37 @@
+/*
+思路：
+非快乐数具有如下特性：在计算的过程中，当前的数字可能会在之前的计算中出现。比如：
+1^2 + 1^2 = 2
+2^2 = 4
+4^2 = 16
+1^2 + 6^2 = 37
+3^2 + 7^2 = 58
+5^2 + 8^2 = 89
+8^2 + 9^2 = 145
+1^2 + 4^2 + 5^2 = 42
+4^2 + 2^2 = 20
+2^2 + 0^2 = 4
+此时出现重复数字4，表明11为非快乐数。因此只需定义一个哈希表来存储之前计算得到的数字即可。
+*/
+class Solution {
+public:
+    bool isHappy(int n) {
+        unordered_map<int, int> hash;
+        int sum = 0;
+        int b = n;
+        while (1){
+            while(b!=0){
+                sum += pow(b%10, 2);
+                b = b/10;
+            }
+            b = sum;
+            
+            if (sum == 1) return true;
+            
+            if (hash.find(sum) != hash.end()) return false;
+            else hash[sum] = 1;
+            
+            sum = 0;
+        }
+    }
+};
