@@ -1,5 +1,7 @@
 /*
 思路：二分查找即可
+几个小trick：判断条件mid>x/mid不可以写成mid*mid>x，因为当mid很大时，mid*mid会导致数据溢出；二分查找的范围是从1~x而不是0~x，因为左边界是0会引起判断条件
+中‘/’操作符除以0.
 */
 class Solution {
 public:
