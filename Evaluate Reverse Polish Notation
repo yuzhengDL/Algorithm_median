@@ -1,0 +1,25 @@
+/*
+思路：堆栈
+*/
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> stk;
+        int len = tokens.size();
+        for (int i=0;i<len;i++){
+            if (tokens[i]!="+" && tokens[i]!="-" && tokens[i]!="*" && tokens[i]!="/")
+                stk.push(atoi(tokens[i].c_str()));
+            else{
+                int a = stk.top();
+                stk.pop();
+                int b = stk.top(); 
+                stk.pop();
+                if (tokens[i]=="+") stk.push(b+a);
+                if (tokens[i]=="-") stk.push(b-a);
+                if (tokens[i]=="*") stk.push(b*a);
+                if (tokens[i]=="/") stk.push(b/a);
+            }
+        }
+        return stk.top();
+    }
+};
