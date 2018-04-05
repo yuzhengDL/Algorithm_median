@@ -1,0 +1,29 @@
+/*
+思路：动态规划。
+首先定义一个bool数组，大小为nums大小减一，每个元素代表是否能从当前元素jump到nums的末尾。从倒数第二个元素往前遍历，若当前元素的i+nums[i]比nums.size()大
+，则表明当前元素可以直接jump到nums数组末尾，不需要中转；若i+nums[i]比nums.size()小，表明当前元素需要中转才能到达数组末尾，此时只需判断中转元素的标志位
+是否是true即可，其中中转元素是一个取值范围，在范围i+1~i+nums[i]之前，因此只需判断这之间的中转元素标志位是否存在true，若存在，代表当前元素可以jump到数组
+末尾。最后判断bool数组第一个元素的标志位是否是true即可。
+*/
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        if (nums.size()==1) return true;
+        vector<bool> ind(nums.size()-1, false);
+        for (int i=nums.size()-2;i>=0;i--){
+            if ((i+nums[i])>=nums.size()-1){
+                ind[i] = true;
+            }
+            else{
+                for (int j=i+1;j<=i+nums[i];j++){
+                    if (ind[j]==true){
+                        ind[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (ind[0]) return true;
+        else return false;
+    }
+};
