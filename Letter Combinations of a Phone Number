@@ -1,0 +1,27 @@
+/*
+思路：
+定义一个字典，用来存储数字按键对应的字母；然后从前往后遍历输入数字digits，对于每一个数字，我们首先需要从字典中取出对应的字母，然后针对之前已经得到的所有
+的字母组合，将它们与当前数字的各个字母依次相加并存入输出字符串数组res中，然后删除之前的所有字母组合。最后得到的res即是在当前输入字符串digits情况下的所有
+可能的字母组合。
+*/
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> res;
+        if (digits.empty()) return res;
+        string dict[] = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        res.push_back("");
+        for (int i=0;i<digits.size();i++){
+            int n = res.size();
+            string str = dict[digits[i] - '2'];
+            for (int k=0;k<n;k++){
+                string temp = res[0];
+                for (int j=0;j<str.size();j++){
+                    res.push_back(temp+str[j]);
+                }
+                res.erase(res.begin());
+            }
+        }
+        return res;
+    }
+};
